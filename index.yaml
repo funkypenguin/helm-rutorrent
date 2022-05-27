@@ -7,6 +7,34 @@ entries:
           description: Initial release
     apiVersion: v2
     appVersion: 3.10-0.9.8-0.13.8
+    created: "2022-05-27T22:00:29.714831893Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    description: Rutorrent is a popular rtorrent client with a webui for ease of use.
+    digest: c25147d338613e622117524b5ac2823e42a8084ebc233cbbd18ce468297323b0
+    home: https://github.com/k8s-at-home/charts/tree/master/charts/stable/rutorrent
+    icon: https://avatars.githubusercontent.com/u/88781313?s=200&v=4
+    keywords:
+    - rutorrent
+    - torrrent
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: davidy@funkypenguin.co.nz
+      name: funkypenguin
+    name: rutorrent
+    sources:
+    - https://github.com/Novik/ruTorrent
+    urls:
+    - https://github.com/funkypenguin/helm-rutorrent/releases/download/rutorrent-1.0.0-pre-02/rutorrent-1.0.0-pre-02.tgz
+    version: 1.0.0-pre-02
+  - annotations:
+      artifacthub.io/changes: |-
+        - kind: added
+          description: Initial release
+    apiVersion: v2
+    appVersion: 3.10-0.9.8-0.13.8
     created: "2022-05-27T21:24:09.001525365Z"
     dependencies:
     - name: common
