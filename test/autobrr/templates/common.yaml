@@ -1,0 +1,96 @@
+---
+# Source: autobrr/templates/common.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: RELEASE-NAME-autobrr
+  labels:
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: autobrr
+    app.kubernetes.io/version: v0.23.0
+    helm.sh/chart: autobrr-1.0.0
+  annotations:
+spec:
+  type: ClusterIP
+  ports:
+  - port: 7474
+    targetPort: http
+    protocol: TCP
+    name: http
+  selector:
+    app.kubernetes.io/name: autobrr
+    app.kubernetes.io/instance: RELEASE-NAME
+---
+# Source: autobrr/templates/common.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: RELEASE-NAME-autobrr
+  labels:
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: autobrr
+    app.kubernetes.io/version: v0.23.0
+    helm.sh/chart: autobrr-1.0.0
+spec:
+  revisionHistoryLimit: 3
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: autobrr
+      app.kubernetes.io/instance: RELEASE-NAME
+  template:
+    metadata:
+      
+      labels:
+        app.kubernetes.io/name: autobrr
+        app.kubernetes.io/instance: RELEASE-NAME
+    spec:
+      
+      serviceAccountName: default
+      automountServiceAccountToken: true
+      dnsPolicy: ClusterFirst
+      enableServiceLinks: true
+      containers:
+        - name: RELEASE-NAME-autobrr
+          image: "ghcr.io/autobrr/autobrr:v0.23.0"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: "TZ"
+              value: "UTC"
+          ports:
+            - name: http
+              containerPort: 7474
+              protocol: TCP
+          volumeMounts:
+            - name: autobrr-config
+              mountPath: /config/config.toml
+              subPath: config.toml
+          livenessProbe:
+            tcpSocket:
+              port: 7474
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 7474
+            initialDelaySeconds: 0
+            failureThreshold: 3
+            timeoutSeconds: 1
+            periodSeconds: 10
+          startupProbe:
+            tcpSocket:
+              port: 7474
+            initialDelaySeconds: 0
+            failureThreshold: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+      volumes:
+        - name: autobrr-config
+          configMap:
+            name: RELEASE-NAME-autobrr-config
