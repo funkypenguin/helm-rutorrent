@@ -6,8 +6,8 @@
 persistence:
   rutorrent-config:
     enabled: true
-    mountPath: "/data/rtorrent/.rtorrent.rc"
-    subPath: ".rtorrent.rc"
+    mountPath: "/etc/rtorrent/.rtlocal.rc"
+    subPath: ".rtlocal.rc"
     type: "custom"
     volumeSpec:
       configMap:
