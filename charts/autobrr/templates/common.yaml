@@ -2,18 +2,18 @@
 {{- include "common.values.setup" . }}
 
 {{/* Append the hardcoded settings */}}
-{{- define "autobrr.harcodedValues" -}}
+{{- define "rutorrent.harcodedValues" -}}
 persistence:
-  autobrr-config:
+  rutorrent-config:
     enabled: true
-    mountPath: "/config/config.toml"
-    subPath: "config.toml"
+    mountPath: "/data/rtorrent/.rtorrent.rc"
+    subPath: ".rtorrent.rc"
     type: "custom"
     volumeSpec:
       configMap:
         name: {{ include "common.names.fullname" . }}-config
 {{- end -}}
-{{- $_ := mergeOverwrite .Values (include "autobrr.harcodedValues" . | fromYaml) -}}
+{{- $_ := mergeOverwrite .Values (include "rutorrent.harcodedValues" . | fromYaml) -}}
 
 {{/* Render the templates */}}
 {{ include "common.all" . }}
